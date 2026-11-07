@@ -2,96 +2,277 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111827">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Водитель</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f1f3f6;font-family:Arial,sans-serif;color:#172033}
-header{background:#111827;color:white;padding:27px 20px 32px;border-radius:0 0 25px 25px}
-header h1{margin:0;font-size:28px}
-header p{color:#cbd5e1;margin-bottom:0}
-main{padding:20px;max-width:500px;margin:auto}
-.card{background:white;padding:20px;border-radius:18px;margin-bottom:16px;box-shadow:0 3px 12px #0000000b}
-h2{font-size:19px;margin:0 0 18px}
-label{display:block;font-weight:bold;margin:14px 0 8px}
-input{width:100%;padding:15px;border:1px solid #d5d9e0;border-radius:11px;font-size:16px}
-button{width:100%;padding:16px;border:0;border-radius:12px;background:#2563eb;color:white;font-size:17px;font-weight:bold;margin-top:16px}
-.result{display:none;background:#eff6ff;padding:18px;border-radius:13px;margin-top:16px}
-.price{font-size:32px;font-weight:bold;margin-top:7px}
-.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.menu button{background:#f1f5f9;color:#172033;margin:0}
-footer{text-align:center;color:#8992a2;font-size:12px;padding:20px}
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f2f4f7;
+    font-family: Arial, sans-serif;
+    color: #172033;
+}
+
+.header {
+    background: #111827;
+    color: white;
+    padding: 28px 20px;
+    border-radius: 0 0 25px 25px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 29px;
+}
+
+.header p {
+    margin: 8px 0 0;
+    color: #cbd5e1;
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin: 15px 0 8px;
+}
+
+input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #d7dce3;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+button {
+    width: 100%;
+    border: 0;
+    border-radius: 13px;
+    padding: 17px;
+    margin-top: 18px;
+    background: #2563eb;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.result {
+    display: none;
+    margin-top: 18px;
+    background: #eef5ff;
+    border-radius: 15px;
+    padding: 18px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.row:last-child {
+    margin-bottom: 0;
+}
+
+.price {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.info {
+    color: #64748b;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.menu button {
+    margin: 0;
+    background: #f1f5f9;
+    color: #172033;
+}
+
+.footer {
+    text-align: center;
+    color: #8b95a5;
+    font-size: 12px;
+    padding: 15px 0 30px;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-<h1>🚗 Водитель</h1>
-<p>Всё необходимое для работы в одном месте</p>
-</header>
+<div class="header">
+    <h1>🚗 Водитель</h1>
+    <p>Расчёт поездок и контроль работы</p>
+</div>
 
-<main>
+<div class="container">
+
 <div class="card">
-<h2>📍 Рассчитать поездку</h2>
 
-<label>Точка А — откуда</label>
-<input id="from" placeholder="Адрес подачи">
+<div class="title">📍 Рассчитать поездку</div>
 
-<label>Точка Б — куда</label>
-<input id="to" placeholder="Адрес доставки">
+<label>Точка А</label>
+<input id="from" type="text" placeholder="Откуда едем?">
+
+<label>Точка Б</label>
+<input id="to" type="text" placeholder="Куда едем?">
 
 <label>Расстояние, км</label>
-<input id="km" type="number" min="0" step="0.1" placeholder="Введите километры">
+<input id="km" type="number" min="0" step="0.1" placeholder="Например, 7.5">
 
-<button onclick="calculate()">РАССЧИТАТЬ ПОЕЗДКУ</button>
+<button onclick="calculate()">
+    РАССЧИТАТЬ ПОЕЗДКУ
+</button>
 
 <div class="result" id="result">
-<div>Расстояние: <b id="distance"></b></div>
-<div style="margin-top:10px">Стоимость поездки:</div>
-<div class="price" id="price"></div>
+
+<div class="row">
+    <span class="info">Откуда</span>
+    <b id="showFrom"></b>
 </div>
+
+<div class="row">
+    <span class="info">Куда</span>
+    <b id="showTo"></b>
+</div>
+
+<div class="row">
+    <span class="info">Расстояние</span>
+    <b id="showKm"></b>
+</div>
+
+<hr>
+
+<div class="row">
+    <span>Стоимость</span>
+    <span class="price" id="price"></span>
+</div>
+
+</div>
+
 </div>
 
 <div class="card">
-<h2>Мои инструменты</h2>
-<div class="menu">
-<button onclick="alert('Раздел доходов добавим следующим этапом')">💰 Мой доход</button>
-<button onclick="alert('Историю поездок добавим следующим этапом')">📋 История</button>
-<button onclick="alert('Рабочее время добавим следующим этапом')">🕐 Рабочее время</button>
-<button onclick="alert('Профиль добавим следующим этапом')">👤 Профиль</button>
-</div>
-</div>
-</main>
 
-<footer>ВОДИТЕЛЬ · Версия 1.0</footer>
+<div class="title">Мои инструменты</div>
+
+<div class="menu">
+
+<button onclick="alert('Раздел доходов добавим следующим этапом')">
+💰 Мой доход
+</button>
+
+<button onclick="alert('Историю поездок добавим следующим этапом')">
+📋 История
+</button>
+
+<button onclick="alert('Рабочее время добавим следующим этапом')">
+🕐 Рабочее время
+</button>
+
+<button onclick="alert('Профиль добавим следующим этапом')">
+👤 Профиль
+</button>
+
+</div>
+
+</div>
+
+<div class="footer">
+ВОДИТЕЛЬ · Версия 1.1
+</div>
+
+</div>
 
 <script>
-function calculate(){
-let km=Number(document.getElementById('km').value);
-if(!document.getElementById('from').value.trim() ||
-!document.getElementById('to').value.trim()){
-alert('Укажи точку А и точку Б');
-return;
+
+function calculate() {
+
+    let from = document.getElementById("from").value.trim();
+    let to = document.getElementById("to").value.trim();
+    let km = Number(document.getElementById("km").value);
+
+    if (from === "") {
+        alert("Укажи точку А");
+        return;
+    }
+
+    if (to === "") {
+        alert("Укажи точку Б");
+        return;
+    }
+
+    if (!km || km <= 0) {
+        alert("Укажи расстояние в километрах");
+        return;
+    }
+
+    let price;
+
+    if (km <= 3) {
+        price = 250;
+    } else if (km <= 5) {
+        price = 300;
+    } else if (km <= 8) {
+        price = 350;
+    } else if (km <= 12) {
+        price = 400;
+    } else if (km <= 15) {
+        price = 500;
+    } else if (km <= 20) {
+        price = 600;
+    } else if (km <= 25) {
+        price = 700;
+    } else if (km <= 30) {
+        price = 800;
+    } else {
+        price = "Индивидуально";
+    }
+
+    document.getElementById("showFrom").textContent = from;
+    document.getElementById("showTo").textContent = to;
+    document.getElementById("showKm").textContent = km + " км";
+    document.getElementById("price").textContent =
+        typeof price === "number" ? price + " ₽" : price;
+
+    document.getElementById("result").style.display = "block";
 }
-if(!document.getElementById('km').value || km<=0){
-alert('Введи расстояние в километрах');
-return;
-}
-let price;
-if(km<=3)price=250;
-else if(km<=5)price=300;
-else if(km<=8)price=350;
-else if(km<=12)price=400;
-else if(km<=15)price=500;
-else if(km<=20)price=600;
-else if(km<=25)price=700;
-else if(km<=30)price=800;
-else price='Индивидуально';
-document.getElementById('distance').textContent=km+' км';
-document.getElementById('price').textContent=typeof price==='number'?price+' ₽':price;
-document.getElementById('result').style.display='block';
-}
+
 </script>
 
 </body>
