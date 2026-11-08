@@ -2,282 +2,225 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Водитель</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Водитель — Курьер-Бизнес</title>
 <style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    background: #f2f4f7;
-    font-family: Arial, sans-serif;
-    color: #172033;
-}
-
-.header {
-    background: #111827;
-    color: white;
-    padding: 28px 20px;
-    border-radius: 0 0 25px 25px;
-}
-
-.header h1 {
-    margin: 0;
-    font-size: 29px;
-}
-
-.header p {
-    margin: 8px 0 0;
-    color: #cbd5e1;
-}
-
-.container {
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-}
-
-.card {
-    background: white;
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 16px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.06);
-}
-
-.title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin: 15px 0 8px;
-}
-
-input {
-    width: 100%;
-    padding: 16px;
-    border: 1px solid #d7dce3;
-    border-radius: 12px;
-    font-size: 16px;
-    outline: none;
-}
-
-input:focus {
-    border-color: #2563eb;
-}
-
-button {
-    width: 100%;
-    border: 0;
-    border-radius: 13px;
-    padding: 17px;
-    margin-top: 18px;
-    background: #2563eb;
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-}
-
-.result {
-    display: none;
-    margin-top: 18px;
-    background: #eef5ff;
-    border-radius: 15px;
-    padding: 18px;
-}
-
-.row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
-}
-
-.row:last-child {
-    margin-bottom: 0;
-}
-
-.price {
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.info {
-    color: #64748b;
-}
-
-.menu {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.menu button {
-    margin: 0;
-    background: #f1f5f9;
-    color: #172033;
-}
-
-.footer {
-    text-align: center;
-    color: #8b95a5;
-    font-size: 12px;
-    padding: 15px 0 30px;
-}
+*{box-sizing:border-box}
+body{margin:0;background:#10141d;color:#fff;font:16px Arial}
+header{padding:20px;background:#1b2230;font-weight:bold}
+main{max-width:600px;margin:auto;padding:15px}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:15px}
+button{padding:13px 5px;border:0;border-radius:9px;background:#42c98a;color:#102018;font-weight:bold;font-size:14px}
+nav button{background:#303b4e;color:white}
+.panel{background:#1b2230;padding:16px;border-radius:12px;margin-bottom:14px}
+h2{font-size:20px;margin-top:0}
+label{display:block;color:#aab5c5;margin:12px 0 6px;font-size:14px}
+input{width:100%;padding:13px;border-radius:8px;border:1px solid #394456;background:#101824;color:white;font-size:16px}
+.action{width:100%;margin-top:14px}
+.hidden{display:none}
+.result{font-size:23px;color:#42c98a;font-weight:bold;margin-top:12px}
+.small{color:#aab5c5;font-size:13px}
+.item{padding:12px 0;border-bottom:1px solid #394456}
 </style>
 </head>
-
 <body>
+<header>ВОДИТЕЛЬ · Курьер-Бизнес</header>
+<main>
 
-<div class="header">
-    <h1>🚗 Водитель</h1>
-    <p>Расчёт поездок и контроль работы</p>
-</div>
+<nav>
+<button onclick="showTab('trip')">Поездка</button>
+<button onclick="showTab('history')">История</button>
+<button onclick="showTab('income')">Доход</button>
+<button onclick="showTab('profile')">Профиль</button>
+</nav>
 
-<div class="container">
-
-<div class="card">
-
-<div class="title">📍 Рассчитать поездку</div>
-
-<label>Точка А</label>
-<input id="from" type="text" placeholder="Откуда едем?">
-
-<label>Точка Б</label>
-<input id="to" type="text" placeholder="Куда едем?">
-
+<section id="trip">
+<div class="panel">
+<h2>Новая поездка</h2>
+<label>Откуда</label>
+<input id="from" placeholder="Точка А">
+<label>Куда</label>
+<input id="to" placeholder="Точка Б">
 <label>Расстояние, км</label>
-<input id="km" type="number" min="0" step="0.1" placeholder="Например, 7.5">
-
-<button onclick="calculate()">
-    РАССЧИТАТЬ ПОЕЗДКУ
-</button>
-
-<div class="result" id="result">
-
-<div class="row">
-    <span class="info">Откуда</span>
-    <b id="showFrom"></b>
+<input id="km" type="number" min="0.1" step="0.1" placeholder="Например, 5">
+<button class="action" onclick="calculate()">Рассчитать стоимость</button>
+<div id="price" class="result"></div>
+<button id="saveTrip" class="action hidden" onclick="saveTrip()">Сохранить поездку</button>
 </div>
 
-<div class="row">
-    <span class="info">Куда</span>
-    <b id="showTo"></b>
+<div class="panel">
+<h2>Рабочая смена</h2>
+<div id="shiftStatus" class="small">Смена не начата</div>
+<button id="shiftButton" class="action" onclick="toggleShift()">Начать смену</button>
 </div>
+</section>
 
-<div class="row">
-    <span class="info">Расстояние</span>
-    <b id="showKm"></b>
+<section id="history" class="hidden">
+<div class="panel">
+<h2>История поездок</h2>
+<div id="historyList" class="small">Поездок пока нет</div>
 </div>
+</section>
 
-<hr>
-
-<div class="row">
-    <span>Стоимость</span>
-    <span class="price" id="price"></span>
+<section id="income" class="hidden">
+<div class="panel">
+<h2>Доход</h2>
+<p>Сегодня: <b id="today">0 ₽</b></p>
+<p>За 7 дней: <b id="week">0 ₽</b></p>
+<p>За месяц: <b id="month">0 ₽</b></p>
+<p>Всего поездок: <b id="count">0</b></p>
 </div>
+</section>
 
+<section id="profile" class="hidden">
+<div class="panel">
+<h2>Профиль водителя</h2>
+<label>Имя</label>
+<input id="driverName" placeholder="Ваше имя">
+<button class="action" onclick="saveProfile()">Сохранить профиль</button>
+<div id="profileMessage" class="small"></div>
 </div>
-
+<div class="panel">
+<h2>Тарифы</h2>
+<div class="small">
+До 3 км — 250 ₽<br>
+До 5 км — 300 ₽<br>
+До 8 км — 350 ₽<br>
+До 12 км — 400 ₽<br>
+До 15 км — 500 ₽<br>
+До 20 км — 600 ₽<br>
+До 25 км — 700 ₽<br>
+До 30 км — 800 ₽<br>
+Более 30 км — индивидуально
 </div>
-
-<div class="card">
-
-<div class="title">Мои инструменты</div>
-
-<div class="menu">
-
-<button onclick="alert('Раздел доходов добавим следующим этапом')">
-💰 Мой доход
-</button>
-
-<button onclick="alert('Историю поездок добавим следующим этапом')">
-📋 История
-</button>
-
-<button onclick="alert('Рабочее время добавим следующим этапом')">
-🕐 Рабочее время
-</button>
-
-<button onclick="alert('Профиль добавим следующим этапом')">
-👤 Профиль
-</button>
-
 </div>
+</section>
 
-</div>
-
-<div class="footer">
-ВОДИТЕЛЬ · Версия 1.1
-</div>
-
-</div>
+</main>
 
 <script>
+var priceValue=0;
 
-function calculate() {
-
-    let from = document.getElementById("from").value.trim();
-    let to = document.getElementById("to").value.trim();
-    let km = Number(document.getElementById("km").value);
-
-    if (from === "") {
-        alert("Укажи точку А");
-        return;
-    }
-
-    if (to === "") {
-        alert("Укажи точку Б");
-        return;
-    }
-
-    if (!km || km <= 0) {
-        alert("Укажи расстояние в километрах");
-        return;
-    }
-
-    let price;
-
-    if (km <= 3) {
-        price = 250;
-    } else if (km <= 5) {
-        price = 300;
-    } else if (km <= 8) {
-        price = 350;
-    } else if (km <= 12) {
-        price = 400;
-    } else if (km <= 15) {
-        price = 500;
-    } else if (km <= 20) {
-        price = 600;
-    } else if (km <= 25) {
-        price = 700;
-    } else if (km <= 30) {
-        price = 800;
-    } else {
-        price = "Индивидуально";
-    }
-
-    document.getElementById("showFrom").textContent = from;
-    document.getElementById("showTo").textContent = to;
-    document.getElementById("showKm").textContent = km + " км";
-    document.getElementById("price").textContent =
-        typeof price === "number" ? price + " ₽" : price;
-
-    document.getElementById("result").style.display = "block";
+function showTab(name){
+['trip','history','income','profile'].forEach(function(id){
+document.getElementById(id).classList.add('hidden');
+});
+document.getElementById(name).classList.remove('hidden');
+if(name==='history') updateHistory();
+if(name==='income') updateIncome();
 }
 
-</script>
+function getTrips(){
+try{return JSON.parse(localStorage.getItem('driverTrips')||'[]')}
+catch(e){return []}
+}
 
-<p style="text-align:center; color:#888; font-size:12px; margin-top:20px;">
-  Версия 2
-</p>
-</body> 
-</p>
+function calculate(){
+var km=Number(document.getElementById('km').value);
+var result=document.getElementById('price');
+var save=document.getElementById('saveTrip');
+
+if(!km||km<=0){
+result.textContent='Укажи расстояние больше 0 км';
+save.classList.add('hidden');
+return;
+}
+
+if(km<=3)priceValue=250;
+else if(km<=5)priceValue=300;
+else if(km<=8)priceValue=350;
+else if(km<=12)priceValue=400;
+else if(km<=15)priceValue=500;
+else if(km<=20)priceValue=600;
+else if(km<=25)priceValue=700;
+else if(km<=30)priceValue=800;
+else priceValue=0;
+
+if(priceValue){
+result.textContent=priceValue+' ₽';
+save.classList.remove('hidden');
+}else{
+result.textContent='Более 30 км — цена договорная';
+save.classList.add('hidden');
+}
+}
+
+function saveTrip(){
+if(!priceValue)return;
+var trips=getTrips();
+trips.unshift({
+from:document.getElementById('from').value||'Не указано',
+to:document.getElementById('to').value||'Не указано',
+km:Number(document.getElementById('km').value),
+price:priceValue,
+date:new Date().toISOString()
+});
+localStorage.setItem('driverTrips',JSON.stringify(trips));
+document.getElementById('price').textContent='Поездка сохранена: '+priceValue+' ₽';
+document.getElementById('saveTrip').classList.add('hidden');
+priceValue=0;
+}
+
+function updateHistory(){
+var trips=getTrips();
+var box=document.getElementById('historyList');
+if(!trips.length){box.textContent='Поездок пока нет';return;}
+box.innerHTML='';
+trips.forEach(function(t){
+var div=document.createElement('div');
+div.className='item';
+div.textContent=t.from+' → '+t.to+' | '+t.km+' км | '+t.price+' ₽ | '+new Date(t.date).toLocaleDateString('ru-RU');
+box.appendChild(div);
+});
+}
+
+function updateIncome(){
+var trips=getTrips(),now=new Date();
+var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+var week=new Date(now.getTime()-7*86400000);
+var month=new Date(now.getFullYear(),now.getMonth(),1);
+function total(from){
+return trips.filter(function(t){return new Date(t.date)>=from;})
+.reduce(function(sum,t){return sum+Number(t.price);},0);
+}
+document.getElementById('today').textContent=total(today)+' ₽';
+document.getElementById('week').textContent=total(week)+' ₽';
+document.getElementById('month').textContent=total(month)+' ₽';
+document.getElementById('count').textContent=trips.length;
+}
+
+function toggleShift(){
+var start=localStorage.getItem('shiftStart');
+if(!start){
+localStorage.setItem('shiftStart',new Date().toISOString());
+showShift();
+}else{
+var minutes=Math.round((Date.now()-new Date(start).getTime())/60000);
+localStorage.removeItem('shiftStart');
+document.getElementById('shiftStatus').textContent='Смена завершена. Отработано: '+Math.floor(minutes/60)+' ч '+minutes%60+' мин';
+document.getElementById('shiftButton').textContent='Начать смену';
+}
+}
+
+function showShift(){
+var start=localStorage.getItem('shiftStart');
+if(start){
+document.getElementById('shiftStatus').textContent='Смена начата: '+new Date(start).toLocaleString('ru-RU');
+document.getElementById('shiftButton').textContent='Завершить смену';
+}else{
+document.getElementById('shiftStatus').textContent='Смена не начата';
+document.getElementById('shiftButton').textContent='Начать смену';
+}
+}
+
+function saveProfile(){
+var name=document.getElementById('driverName').value;
+localStorage.setItem('driverName',name);
+document.getElementById('profileMessage').textContent='Профиль сохранён';
+}
+
+document.getElementById('driverName').value=localStorage.getItem('driverName')||'';
+showShift();
+</script>
+</body>
 </html>
